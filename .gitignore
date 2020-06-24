@@ -1,0 +1,9 @@
+# ignore these directories.
+/.git
+/recipes
+/test
+transwin-pkg.el
+transwin-autoloads.el
+
+# ignore generated files.
+*.elc
