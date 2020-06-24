@@ -8,7 +8,7 @@
 ;; Keyword: window transparent frame
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.3"))
-;; URL: https://github.com/jcs090218/transwin
+;; URL: https://github.com/jcs-elpa/transwin
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -33,74 +33,105 @@
 ;;; Code:
 
 
-(defvar jcs-current-frame-transparency 100
-  "Current active frame transparency.")
+(defgroup transwin nil
+  "Make window/frame transparent."
+  :prefix "transwin-"
+  :group 'tool
+  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/transwin"))
 
-(defvar jcs-record-toggle-frame-transparency 85
+(defcustom transwin-delta-alpha 5
+  "Delta value increament/decreament transparency value."
+  :type 'integer
+  :group 'transwin)
+
+(defvar transwin--current-alpha 100
+  "Current alpha level.")
+
+(defvar transwin--record-toggle-frame-transparency 85
   "Record toggle frame transparency.")
 
-(defvar jcs-default-delta-transparency 5
-  "Delta increament/decreament transparency value.")
+(defun transwin--to-reverse (in-val)
+  "Reverse value IN-VAL."
+  (- 0 in-val))
 
+(defun transwin--to-positive (in-val)
+  "Convert IN-VAL to positive value."
+  (when (and in-val
+             (< in-val 0))
+    (setq in-val (transwin--to-reverse in-val)))
+  in-val)
 
-;;;###autoload
-(defun jcs-ask-set-transparency (alpha-level)
-  "Set the frame transparency by ALPHA-LEVEL."
-  (interactive "p")
-  ;; SOURCE: https://gist.github.com/benzap/89759928060f4578c063
-  (let ((alpha-level (if (< alpha-level 2)
-                         (read-number "Opacity percentage: " jcs-record-toggle-frame-transparency)
-                       alpha-level)))
-    (jcs-set-transparency alpha-level)))
+(defun transwin--to-negative (in-val)
+  "Convert IN-VAL to negative value."
+  (when (and in-val
+             (> in-val 0))
+    (setq in-val (transwin--to-reverse in-val)))
+  in-val)
 
-(defun jcs-set-transparency (alpha-level)
+(defun transwin--clamp-integer (in-val in-min in-max)
+  "Make sure the IN-VAL is between IN-MIN and IN-MAX."
+  (let ((out-result in-val))
+    (cond ((<= in-val in-min) (progn (setq out-result in-min)))
+          ((>= in-val in-max) (progn (setq out-result in-max))))
+    out-result))
+
+(defun transwin--set-transparency (alpha-level)
   "Set the frame transparency by ALPHA-LEVEL."
   (set-frame-parameter nil 'alpha alpha-level)
   (message (format "[INFO] Frame alpha level is %d" (frame-parameter nil 'alpha)))
-  (setq jcs-current-frame-transparency alpha-level)
+  (setq transwin--current-alpha alpha-level)
   (unless (= alpha-level 100)
-    (setq jcs-record-toggle-frame-transparency alpha-level)))
+    (setq transwin--record-toggle-frame-transparency alpha-level)))
 
-;;;###autoload
-(defun jcs-toggle-transparent-frame ()
-  "Toggle frame's transparency between `recorded'% and 100%."
-  (interactive)
-  (if (= jcs-current-frame-transparency 100)
-      (jcs-set-transparency jcs-record-toggle-frame-transparency)
-    (jcs-set-transparency 100)))
-
-
-(defun jcs-delta-frame-transparent (del-trans)
-  "Delta changes the frame transparency by a certain percentage, DEL-TRANS."
+(defun transwin--delta-frame-transparent (del-trans)
+  "Delta change the frame transparency by a certain percentage, DEL-TRANS."
   (let ((alpha (frame-parameter nil 'alpha))
-        (current-transparency jcs-default-delta-transparency))
+        (current-transparency transwin-delta-alpha))
 
-    (setq current-transparency (cond ((numberp alpha) alpha)
-                                     ((numberp (cdr alpha)) (cdr alpha))
-                                     ;; Also handle undocumented (<active> <inactive>) form.
-                                     ((numberp (cadr alpha)) (cadr alpha))))
+    (setq current-transparency
+          (cond ((numberp alpha) alpha)
+                ((numberp (cdr alpha)) (cdr alpha))
+                ;; Also handle undocumented (<active> <inactive>) form.
+                ((numberp (cadr alpha)) (cadr alpha))))
 
     (setq current-transparency (+ current-transparency del-trans))
-    (setq current-transparency (jcs-clamp-integer current-transparency 5 100))
+    (setq current-transparency (transwin--clamp-integer current-transparency 5 100))
 
     ;; Apply the value to frame.
-    (jcs-set-transparency current-transparency)))
+    (transwin--set-transparency current-transparency)))
 
 ;;;###autoload
-(defun jcs-increment-frame-transparent (&optional del-trans)
+(defun transwin-increment-frame-transparent (&optional del-trans)
   "Increment the frame transparency by a certain percentage, DEL-TRANS."
   (interactive)
   (unless del-trans
-    (setq del-trans (jcs-to-positive jcs-default-delta-transparency)))
-  (jcs-delta-frame-transparent del-trans))
+    (setq del-trans (transwin--to-positive transwin-delta-alpha)))
+  (transwin--delta-frame-transparent del-trans))
 
 ;;;###autoload
-(defun jcs-decrement-frame-transparent (&optional del-trans)
+(defun transwin-decrement-frame-transparent (&optional del-trans)
   "Decrement the frame transparency by a certain percentage, DEL-TRANS."
   (interactive)
   (unless del-trans
-    (setq del-trans (jcs-to-negative jcs-default-delta-transparency)))
-  (jcs-delta-frame-transparent del-trans))
+    (setq del-trans (transwin--to-negative transwin-delta-alpha)))
+  (transwin--delta-frame-transparent del-trans))
+
+;;;###autoload
+(defun transwin-ask-set-transparency (alpha-level)
+  "Set the frame transparency by ALPHA-LEVEL."
+  (interactive "p")
+  (let ((alpha-level (if (< alpha-level 2)
+                         (read-number "Opacity percentage: " transwin--record-toggle-frame-transparency)
+                       alpha-level)))
+    (transwin--set-transparency alpha-level)))
+
+;;;###autoload
+(defun transwin-toggle-transparent-frame ()
+  "Toggle frame's transparency between `recorded'% and 100%."
+  (interactive)
+  (if (= transwin--current-alpha 100)
+      (transwin--set-transparency transwin--record-toggle-frame-transparency)
+    (transwin--set-transparency 100)))
 
 
 (provide 'transwin)
