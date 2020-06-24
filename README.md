@@ -4,7 +4,19 @@
 # transwin
 > Make window/frame transparent
 
-N/A
+## Usage
+
+`transwin-toggle-transparent-frame`
+
+Toggle transparent frame to the previous record alpha value.
+
+`transwin-ask-set-transparency`
+
+Set alpha value directly.
+
+`transwin-increment-frame-transparent` or `transwin-decrement-frame-transparent`
+
+Increment or decrement the current frame's alpha value.
 
 ## Contribution
 
