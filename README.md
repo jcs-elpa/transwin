@@ -4,6 +4,10 @@
 # transwin
 > Make window/frame transparent.
 
+<p align="center">
+  <img src="./etc/transwin.png" width="929" height="540"/>
+</p>
+
 ## Usage
 
 `transwin-toggle-transparent-frame`
