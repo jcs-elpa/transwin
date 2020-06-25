@@ -5,7 +5,7 @@
 > Make window/frame transparent.
 
 <p align="center">
-  <img src="./etc/transwin.png" width="929" height="540"/>
+  <img src="./etc/transwin.png" width="619" height="360"/>
 </p>
 
 ## Usage
