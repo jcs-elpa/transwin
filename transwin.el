@@ -78,7 +78,7 @@
 (defun transwin--set-transparency (alpha-level)
   "Set the frame transparency by ALPHA-LEVEL."
   (set-frame-parameter nil 'alpha alpha-level)
-  (message (format "[INFO] Frame alpha level is %d" (frame-parameter nil 'alpha)))
+  (message "[INFO] Frame alpha level is %d" (frame-parameter nil 'alpha))
   (setq transwin--current-alpha alpha-level)
   (unless (= alpha-level 100)
     (setq transwin--record-toggle-frame-transparency alpha-level)))
