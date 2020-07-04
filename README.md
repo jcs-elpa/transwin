@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.com/jcs-elpa/transwin.svg?branch=master)](https://travis-ci.com/jcs-elpa/transwin)
+[![MELPA](https://melpa.org/packages/transwin-badge.svg)](https://melpa.org/#/transwin)
+[![MELPA Stable](https://stable.melpa.org/packages/transwin-badge.svg)](https://stable.melpa.org/#/transwin)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # transwin
