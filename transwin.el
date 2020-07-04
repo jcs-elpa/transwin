@@ -32,7 +32,6 @@
 
 ;;; Code:
 
-
 (defgroup transwin nil
   "Make window/frame transparent."
   :prefix "transwin-"
@@ -132,7 +131,6 @@
   (if (= transwin--current-alpha 100)
       (transwin--set-transparency transwin--record-toggle-frame-transparency)
     (transwin--set-transparency 100)))
-
 
 (provide 'transwin)
 ;;; transwin.el ends here
