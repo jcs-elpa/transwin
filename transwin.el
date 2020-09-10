@@ -49,6 +49,8 @@
 (defvar transwin--record-toggle-frame-transparency 85
   "Record toggle frame transparency.")
 
+;;; Util
+
 (defun transwin--to-reverse (in-val)
   "Reverse value IN-VAL."
   (- 0 in-val))
@@ -74,10 +76,16 @@
           ((>= in-val in-max) (progn (setq out-result in-max))))
     out-result))
 
+(defun transwin--log (fmt &rest args)
+  "Log message like function `message' with same argument FMT and ARGS."
+  (let ((message-log-max nil)) (apply 'message fmt args)))
+
+;;; Core
+
 (defun transwin--set-transparency (alpha-level)
   "Set the frame transparency by ALPHA-LEVEL."
   (set-frame-parameter nil 'alpha alpha-level)
-  (message "[INFO] Frame alpha level is %d" (frame-parameter nil 'alpha))
+  (transwin--log "[INFO] Frame alpha level is %d" (frame-parameter nil 'alpha))
   (setq transwin--current-alpha alpha-level)
   (unless (= alpha-level 100)
     (setq transwin--record-toggle-frame-transparency alpha-level)))
