@@ -1,10 +1,11 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![MELPA](https://melpa.org/packages/transwin-badge.svg)](https://melpa.org/#/transwin)
 [![MELPA Stable](https://stable.melpa.org/packages/transwin-badge.svg)](https://stable.melpa.org/#/transwin)
-[![CI](https://github.com/jcs-elpa/transwin/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/transwin/actions/workflows/test.yml)
 
 # transwin
 > Make window/frame transparent.
+
+[![CI](https://github.com/jcs-elpa/transwin/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/transwin/actions/workflows/test.yml)
 
 <p align="center">
   <img src="./etc/transwin.png" width="619" height="360"/>
