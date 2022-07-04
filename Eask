@@ -2,6 +2,9 @@
          "0.1.3" 
          "Make window/frame transparent")
 
+(website-url "https://github.com/jcs-elpa/transwin")
+(keywords "frames" "window" "transparent")
+
 (package-file "transwin.el")
 
 (source "melpa")
