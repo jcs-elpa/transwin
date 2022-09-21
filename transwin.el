@@ -42,6 +42,11 @@
   :type 'integer
   :group 'transwin)
 
+(defcustom transwin-parameter-alpha 'alpha
+  "Frame parameter symbol."
+  :type 'symbol
+  :group 'transwin)
+
 (defvar transwin--current-alpha 100
   "Current alpha level.")
 
@@ -50,48 +55,45 @@
 
 ;;; Util
 
-(defun transwin--to-reverse (in-val)
-  "Reverse value IN-VAL."
-  (- 0 in-val))
+(defun transwin--to-reverse (val)
+  "Reverse value VAL."
+  (- 0 val))
 
-(defun transwin--to-positive (in-val)
-  "Convert IN-VAL to positive value."
-  (when (and in-val
-             (< in-val 0))
-    (setq in-val (transwin--to-reverse in-val)))
-  in-val)
+(defun transwin--to-positive (val)
+  "Convert VAL to positive value."
+  (when (and val (< val 0))
+    (setq val (transwin--to-reverse val)))
+  val)
 
-(defun transwin--to-negative (in-val)
-  "Convert IN-VAL to negative value."
-  (when (and in-val
-             (> in-val 0))
-    (setq in-val (transwin--to-reverse in-val)))
-  in-val)
+(defun transwin--to-negative (val)
+  "Convert VAL to negative value."
+  (when (and val (> val 0))
+    (setq val (transwin--to-reverse val)))
+  val)
 
-(defun transwin--clamp-integer (in-val in-min in-max)
-  "Make sure the IN-VAL is between IN-MIN and IN-MAX."
-  (let ((out-result in-val))
-    (cond ((<= in-val in-min) (progn (setq out-result in-min)))
-          ((>= in-val in-max) (progn (setq out-result in-max))))
-    out-result))
+(defun transwin--clamp-integer (val min max)
+  "Make sure the VAL is between MIN and MAX."
+  (cond ((<= val min) min)
+        ((>= val max) max)
+        (t val)))
 
 (defun transwin--log (fmt &rest args)
   "Log message like function `message' with same argument FMT and ARGS."
-  (let ((message-log-max nil)) (apply 'message fmt args)))
+  (let (message-log-max) (apply 'message fmt args)))
 
 ;;; Core
 
 (defun transwin--set-transparency (alpha-level)
   "Set the frame transparency by ALPHA-LEVEL."
-  (set-frame-parameter nil 'alpha alpha-level)
-  (transwin--log "[INFO] Frame alpha level is %d" (frame-parameter nil 'alpha))
+  (set-frame-parameter nil transwin-parameter-alpha alpha-level)
+  (transwin--log "[INFO] Frame alpha level is %d" (frame-parameter nil transwin-parameter-alpha))
   (setq transwin--current-alpha alpha-level)
   (unless (= alpha-level 100)
     (setq transwin--record-toggle-frame-transparency alpha-level)))
 
 (defun transwin--delta-frame-transparent (del-trans)
   "Delta change the frame transparency by a certain percentage, DEL-TRANS."
-  (let ((alpha (frame-parameter nil 'alpha))
+  (let ((alpha (frame-parameter nil transwin-parameter-alpha))
         (current-transparency transwin-delta-alpha))
 
     (setq current-transparency
@@ -107,23 +109,19 @@
     (transwin--set-transparency current-transparency)))
 
 ;;;###autoload
-(defun transwin-increment-frame-transparent (&optional del-trans)
+(defun transwin-inc (&optional del-trans)
   "Increment the frame transparency by a certain percentage, DEL-TRANS."
   (interactive)
-  (unless del-trans
-    (setq del-trans (transwin--to-positive transwin-delta-alpha)))
-  (transwin--delta-frame-transparent del-trans))
+  (transwin--delta-frame-transparent (transwin--to-positive (or del-trans transwin-delta-alpha))))
 
 ;;;###autoload
-(defun transwin-decrement-frame-transparent (&optional del-trans)
+(defun transwin-dec (&optional del-trans)
   "Decrement the frame transparency by a certain percentage, DEL-TRANS."
   (interactive)
-  (unless del-trans
-    (setq del-trans (transwin--to-negative transwin-delta-alpha)))
-  (transwin--delta-frame-transparent del-trans))
+  (transwin--delta-frame-transparent (transwin--to-negative (or del-trans transwin-delta-alpha))))
 
 ;;;###autoload
-(defun transwin-ask-set-transparency (alpha-level)
+(defun transwin-ask (alpha-level)
   "Set the frame transparency by ALPHA-LEVEL."
   (interactive "p")
   (let ((alpha-level (if (< alpha-level 2)
@@ -132,12 +130,30 @@
     (transwin--set-transparency alpha-level)))
 
 ;;;###autoload
-(defun transwin-toggle-transparent-frame ()
+(defun transwin-toggle ()
   "Toggle frame's transparency between `recorded'% and 100%."
   (interactive)
   (if (= transwin--current-alpha 100)
       (transwin--set-transparency transwin--record-toggle-frame-transparency)
     (transwin--set-transparency 100)))
+
+;;; Obsolete
+
+(define-obsolete-function-alias
+  'transwin-increment-frame-transparent
+  'transwin-inc "0.1.4")
+
+(define-obsolete-function-alias
+  'transwin-decrement-frame-transparent
+  'transwin-dec "0.1.4")
+
+(define-obsolete-function-alias
+  'transwin-ask-set-transparency
+  'transwin-ask "0.1.4")
+
+(define-obsolete-function-alias
+  'transwin-toggle-transparent-frame
+  'transwin-toggle "0.1.4")
 
 (provide 'transwin)
 ;;; transwin.el ends here

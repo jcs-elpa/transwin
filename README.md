@@ -13,15 +13,15 @@
 
 ## Usage
 
-`transwin-toggle-transparent-frame`
+`transwin-toggle`
 
 Toggle transparent frame to the previous record alpha value.
 
-`transwin-ask-set-transparency`
+`transwin-ask`
 
 Set alpha value directly.
 
-`transwin-increment-frame-transparent` or `transwin-decrement-frame-transparent`
+`transwin-inc` or `transwin-dec`
 
 Increment or decrement the current frame's alpha value.
 
