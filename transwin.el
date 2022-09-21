@@ -1,6 +1,6 @@
 ;;; transwin.el --- Make window/frame transparent  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  Shen, Jen-Chieh
+;; Copyright (C) 2020-2022  Shen, Jen-Chieh
 ;; Created date 2020-06-25 01:42:34
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
