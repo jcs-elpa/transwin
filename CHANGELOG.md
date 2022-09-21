@@ -13,7 +13,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## 0.1.4
 > Released Sep 21, 2022
 
-* Shorten names and fix initial alpha-level declaration (ddb185feab04cb5e15a56ee3450c5f33cb99deae)
+* Shorten function names, and obsolete old ones (ddb185feab04cb5e15a56ee3450c5f33cb99deae)
+* Fix initial alpha-level declaration (e4a1fe564224bce61fbf72ad6f12805078cbf8db)
 
 ## 0.1.3
 > Released Sep 11, 2020
