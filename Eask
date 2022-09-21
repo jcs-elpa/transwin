@@ -1,5 +1,5 @@
 (package "transwin" 
-         "0.1.3" 
+         "0.1.4" 
          "Make window/frame transparent")
 
 (website-url "https://github.com/jcs-elpa/transwin")
