@@ -93,7 +93,7 @@
 
 (defun transwin--delta-frame-transparent (del-trans)
   "Delta change the frame transparency by a certain percentage, DEL-TRANS."
-  (let ((alpha (frame-parameter nil transwin-parameter-alpha))
+  (let ((alpha (or (frame-parameter nil transwin-parameter-alpha) 100))
         (current-transparency transwin-delta-alpha))
 
     (setq current-transparency
