@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## 0.1.5 (Unreleased)
 > Released N/A
 
-* N/A
+* feat: Respect variable `frame-alpha-lower-limit` (99f9296a18654cb38f2ffb8682b7532be60bec5e)
 
 ## 0.1.4
 > Released Sep 21, 2022
