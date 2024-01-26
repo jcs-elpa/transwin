@@ -85,6 +85,10 @@
 
 (defun transwin--set-transparency (alpha-level)
   "Set the frame transparency by ALPHA-LEVEL."
+  (setq alpha-level (max alpha-level (if (floatp frame-alpha-lower-limit)
+                                         (* 100 frame-alpha-lower-limit)
+                                       frame-alpha-lower-limit))
+        alpha-level (round alpha-level))
   (set-frame-parameter nil transwin-parameter-alpha alpha-level)
   (transwin--log "[INFO] Frame alpha level is %d" (frame-parameter nil transwin-parameter-alpha))
   (setq transwin--current-alpha alpha-level)
