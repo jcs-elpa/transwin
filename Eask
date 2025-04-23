@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "transwin" 
          "0.1.4" 
          "Make window/frame transparent")
