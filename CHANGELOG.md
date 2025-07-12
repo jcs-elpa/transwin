@@ -8,13 +8,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## 0.1.5 (Unreleased)
 > Released N/A
 
-* feat: Respect variable `frame-alpha-lower-limit` (99f9296a18654cb38f2ffb8682b7532be60bec5e)
+* feat: Respect variable `frame-alpha-lower-limit` ([`99f9296`](../../commit/99f9296a18654cb38f2ffb8682b7532be60bec5e))
 
 ## 0.1.4
 > Released Sep 21, 2022
 
-* Shorten function names, and obsolete old ones (ddb185feab04cb5e15a56ee3450c5f33cb99deae)
-* Fix initial alpha-level declaration (e4a1fe564224bce61fbf72ad6f12805078cbf8db)
+* Shorten function names, and obsolete old ones ([`ddb185f`](../../commit/ddb185feab04cb5e15a56ee3450c5f33cb99deae))
+* Fix initial alpha-level declaration ([`e4a1fe5`](../../commit/e4a1fe564224bce61fbf72ad6f12805078cbf8db))
 
 ## 0.1.3
 > Released Sep 11, 2020
